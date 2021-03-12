@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="Bus"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="msvc8"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="D:/Research/Bus/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f D:\Research\Bus\cmake-build-debug\Makefile VERBOSE=1 all"/>
+					<CompileFile command="nmake /NOLOGO /f D:\Research\Bus\cmake-build-debug\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f D:\Research\Bus\cmake-build-debug\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f D:\Research\Bus\cmake-build-debug\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Bus">
+				<Option output="D:/Research/Bus/cmake-build-debug/Bus.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="D:/Research/Bus/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="msvc8"/>
+				<Compiler>
+					<Add directory="C:/Program Files/IBM/ILOG/CPLEX_Studio1210/cplex/include"/>
+					<Add directory="C:/Program Files/IBM/ILOG/CPLEX_Studio1210/concert/include"/>
+					<Add directory="C:/Program Files/IBM/ILOG/CPLEX_Studio1210/cpoptimizer/include"/>
+					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.27.29110\ATLMFC\include"/>
+					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.27.29110\include"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\shared"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\um"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\winrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\cppwinrt"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f D:\Research\Bus\cmake-build-debug\Makefile VERBOSE=1 Bus"/>
+					<CompileFile command="nmake /NOLOGO /f D:\Research\Bus\cmake-build-debug\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f D:\Research\Bus\cmake-build-debug\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f D:\Research\Bus\cmake-build-debug\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Bus/fast">
+				<Option output="D:/Research/Bus/cmake-build-debug/Bus.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="D:/Research/Bus/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="msvc8"/>
+				<Compiler>
+					<Add directory="C:/Program Files/IBM/ILOG/CPLEX_Studio1210/cplex/include"/>
+					<Add directory="C:/Program Files/IBM/ILOG/CPLEX_Studio1210/concert/include"/>
+					<Add directory="C:/Program Files/IBM/ILOG/CPLEX_Studio1210/cpoptimizer/include"/>
+					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.27.29110\ATLMFC\include"/>
+					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.27.29110\include"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\shared"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\um"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\winrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\cppwinrt"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f D:\Research\Bus\cmake-build-debug\Makefile VERBOSE=1 Bus/fast"/>
+					<CompileFile command="nmake /NOLOGO /f D:\Research\Bus\cmake-build-debug\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f D:\Research\Bus\cmake-build-debug\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f D:\Research\Bus\cmake-build-debug\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="D:/Research/Bus/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f D:\Research\Bus\cmake-build-debug\Makefile VERBOSE=1 edit_cache"/>
+					<CompileFile command="nmake /NOLOGO /f D:\Research\Bus\cmake-build-debug\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f D:\Research\Bus\cmake-build-debug\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f D:\Research\Bus\cmake-build-debug\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="D:/Research/Bus/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f D:\Research\Bus\cmake-build-debug\Makefile VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="nmake /NOLOGO /f D:\Research\Bus\cmake-build-debug\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f D:\Research\Bus\cmake-build-debug\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f D:\Research\Bus\cmake-build-debug\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="D:/Research/Bus/src/Source.cpp">
+			<Option target="Bus"/>
+		</Unit>
+		<Unit filename="D:/Research/Bus/src/business/Function.h">
+			<Option target="Bus"/>
+		</Unit>
+		<Unit filename="D:/Research/Bus/src/business/StringConcat.h">
+			<Option target="Bus"/>
+		</Unit>
+		<Unit filename="D:/Research/Bus/src/config/Config.h">
+			<Option target="Bus"/>
+		</Unit>
+		<Unit filename="D:/Research/Bus/src/config/GlobalVariables.h">
+			<Option target="Bus"/>
+		</Unit>
+		<Unit filename="D:/Research/Bus/src/input/Input.h">
+			<Option target="Bus"/>
+		</Unit>
+		<Unit filename="D:/Research/Bus/src/input/VRP2Instance.h">
+			<Option target="Bus"/>
+		</Unit>
+		<Unit filename="D:/Research/Bus/src/model/Objects.h">
+			<Option target="Bus"/>
+		</Unit>
+		<Unit filename="D:/Research/Bus/src/model/Route.h">
+			<Option target="Bus"/>
+		</Unit>
+		<Unit filename="D:/Research/Bus/src/output/Output.h">
+			<Option target="Bus"/>
+		</Unit>
+		<Unit filename="D:/Research/Bus/src/solver/ILS.h">
+			<Option target="Bus"/>
+		</Unit>
+		<Unit filename="D:/Research/Bus/src/solver/Mip.h">
+			<Option target="Bus"/>
+		</Unit>
+		<Unit filename="D:/Research/Bus/src/solver/Sol.h">
+			<Option target="Bus"/>
+		</Unit>
+		<Unit filename="D:/Research/Bus/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
