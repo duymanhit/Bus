@@ -41,5 +41,5 @@ link_directories(${CCLNDIRS})
 
 file(GLOB SOURCES src/Source.cpp)
 
-add_executable(${CMAKE_PROJECT_NAME} ${SOURCES} src/config/Config.h src/business/StringConcat.h src/business/Function.h src/model/Objects.h src/config/GlobalVariables.h src/solver/Sol.h src/input/Input.h src/output/Output.h src/solver/ILS.h src/input/VRP2Instance.h src/model/Route.h "src/solver/Mip.h")
+add_executable(${CMAKE_PROJECT_NAME} ${SOURCES} src)
 target_link_libraries(${CMAKE_PROJECT_NAME} ${CPLEXLIBS})

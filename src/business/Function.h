@@ -11,17 +11,25 @@
 #pragma once
 
 int getMaxTravelTime(int node) {
-    return  travel_time[node][0] * max_percentage_travel_time;
+    return travel_time[node][0] * max_percentage_travel_time;
 }
+
 bool checkTimeNode(int node, int riding_time) {
     return (riding_time <= travel_time[node][0] * max_percentage_travel_time) & (riding_time <= max_time_per_route);
 }
+
 bool checkNegative(int node, int riding_time) {
-    return (riding_time > nodes[node].current_time * max_nagative_time_ratio);
+    return (riding_time > nodes[node].current_time * max_negative_time_ratio);
 }
+
 int getNegative(int node, int riding_time) {
-    return nodes[node].demand * ((riding_time > nodes[node].current_time * max_nagative_time_ratio));
+    return nodes[node].demand * ((riding_time > nodes[node].current_time * max_negative_time_ratio));
 }
+
 int getEUCdis(int x_1, int y_1, int x_2, int y_2) {
     return round(sqrt(pow(x_1 - x_2, 2) + pow(y_1 - y_2, 2)));
+}
+
+int random(int start, int end) {
+    return rand() % (end - start + 1) + start;
 }

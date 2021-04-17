@@ -79,7 +79,7 @@ void mip() {
     {
         IloExpr con(env);
         for (int i = 1; i <= n_node; i++) {
-            model.add(time[i] - r[i] * max_time_per_route <= max_nagative_time_ratio * nodes[i].current_time);
+            model.add(time[i] - r[i] * max_time_per_route <= max_negative_time_ratio * nodes[i].current_time);
             con += r[i] * nodes[i].demand;
         }
         model.add(con <= max_negative_students);
@@ -147,7 +147,7 @@ void mip() {
         sol.giant_tour[++sol.n_giant_tour] = 0;
     }
     reverse(sol.giant_tour, sol.giant_tour + sol.n_giant_tour + 1);
-    sol.convertGiantToRoutes();
+    sol.processGiantToRoutes();
     sol.outFile(cplex.getMIPRelativeGap());
     out(sol.total_cost, int(round(100 * double(sol.n_negative) / total_demand)));
     printArray0N(sol.giant_tour, sol.n_giant_tour);
@@ -156,12 +156,12 @@ void mip() {
     //}
     //cout << endl;
     //for (int i = 1; i <= n_node; i++) {
-    //	cout << sol.time_of_node[i] << " ";
+    //	cout << sol.timeOfNode[i] << " ";
     //}
     //cout << endl;
-    //printArray0N(sol.demand_giant, sol.n_giant_tour);
-    //for (int i = 0; i <= sol.n_giant_tour; i++) {
-    //	cout << cplex.getValue(d[sol.giant_tour[i]]) << " ";
+    //printArray0N(sol.demand_giant, sol.nGiantTour);
+    //for (int i = 0; i <= sol.nGiantTour; i++) {
+    //	cout << cplex.getValue(d[sol.giantTour[i]]) << " ";
     //}
     if (int(round(cplex.getValue(obj))) != sol.total_cost) while (true);
     sol.check();

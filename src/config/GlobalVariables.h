@@ -10,7 +10,7 @@
 #endif //BUS_GLOBALVARIABLES_H
 #pragma once
 default_random_engine generator;
-Sol best_sol;
+Sol bestSol;
 Sol current_sol;
 Sol cache_sol;
 bool check_instance;

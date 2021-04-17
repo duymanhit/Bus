@@ -43,7 +43,7 @@ void convertVRPinstance(const string& path) {
     max_nodes_per_route = 7;
     waiting_time = 2;
     max_percentage_travel_time = 2;
-    max_nagative_time_ratio = 1.05;
+    max_negative_time_ratio = 1.05;
     ifstream fileIn("Input_vrp/" + path);
     string str;
     getline(fileIn, str);
@@ -82,21 +82,21 @@ void convertVRPinstance(const string& path) {
     max_negative_percentage_of_student = 1.0;
     process_input();
     for (int i = 0; i <= n_node; i++) nodes[i].current_time = oo;
-    ILS(1, 2000);
+    ILS(1,2000);
     Sol sol_1;
-    sol_1.copy(best_sol);
-    for (int i = 0; i < best_sol.n_giant_tour - 1; i++) {
-        if (best_sol.giant_tour[i] == 0 && best_sol.giant_tour[i + 1] != 0) {
+    sol_1.copy(bestSol);
+    for (int i = 0; i < bestSol.n_giant_tour - 1; i++) {
+        if (bestSol.giant_tour[i] == 0 && bestSol.giant_tour[i + 1] != 0) {
             int start = i + 1;
             int n = 0;
-            for (int i = start; best_sol.giant_tour[i] != 0; i++) n++;
+            for (int i = start; bestSol.giant_tour[i] != 0; i++) n++;
             int capacities[] = { 15, 28, 44, 44};
             int capacity;
             do {
                 capacity = capacities[rand() % 4];
             } while ((double)(capacity) / n > 15);
             int* demand = generateRouteWithDemand(n, capacity - rand() % 2, 2, 15);
-            for (int i = 0; i < n; i++) nodes[best_sol.giant_tour[start + i]].demand = demand[i];
+            for (int i = 0; i < n; i++) nodes[bestSol.giant_tour[start + i]].demand = demand[i];
         }
     }
     //for (int i = 0; i < n_node; i++)
@@ -116,7 +116,7 @@ void convertVRPinstance(const string& path) {
         fileOut << max_nodes_per_route << endl;
         fileOut << max_time_per_route << endl;
         fileOut << max_percentage_travel_time << endl;
-        fileOut << max_nagative_time_ratio << endl;
+        fileOut << max_negative_time_ratio << endl;
         //fileOut << max_negative_percentage_of_student << endl;
         fileOut << n_node << endl;
         for (int i = 0; i <= n_node; i++) {
@@ -142,9 +142,9 @@ void convertVRPinstance(const string& path) {
         cout << sol.total_cost << endl;
         sol.statistic();
         fileOut.close();
-        //cout << sol.total_cost << endl;
+        //cout << sol.totalCost << endl;
     }
-    //sol_1.convertGiantToRoutes();
+    //sol_1.processGiantToRoutes();
     //sol_1.printf();
 }
 

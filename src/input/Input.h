@@ -26,7 +26,7 @@ void getInput(const string& path) {
     fileIn >> max_nodes_per_route;
     fileIn >> max_time_per_route;
     fileIn >> max_percentage_travel_time;
-    fileIn >> max_nagative_time_ratio;
+    fileIn >> max_negative_time_ratio;
     fileIn >> n_node;
     for (int i = 0; i <= n_node; i++) {
         fileIn >> i >>  nodes[i].x >> nodes[i].y >> nodes[i].demand;
@@ -50,7 +50,7 @@ void getInput(const string& path) {
     current_sol.n_giant_tour = 0;
     int node;
     while (fileIn >> node) current_sol.giant_tour[++current_sol.n_giant_tour] = node;
-    current_sol.convertGiantToRoutes();
+    current_sol.processGiantToRoutes();
     for (int i = 1; i <= n_node; i++) {
         nodes[i].current_time = current_sol.time_of_node[i];
     }

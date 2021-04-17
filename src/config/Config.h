@@ -20,12 +20,12 @@ VehicleType bus_types[maxn]; // list of Truck's type
 Location nodes[maxn]; // list of location
 int** travel_time; // the distance between two locations
 int waiting_time; // waiting time at each location
-int max_nodes_per_route; // maximum of locations per route
-double max_time_per_route; // maximum of riding time per route
+int max_nodes_per_route; // maximum of locations per routes
+double max_time_per_route; // maximum of riding time per routes
 double max_percentage_travel_time; // maximum of negative percentage
 double max_negative_percentage_of_student; // maximum of negative locations
 int max_negative_students; // corresponding maximum of negative locations
-double max_nagative_time_ratio; // minimal ratio for negative impact
+double max_negative_time_ratio; // minimal ratio for negative impact
 int* bus_for_demand; // return the optimal type of vehicle for given demand
 int* fixed_cost_for_demand; // return correspond fixed cost for given demand
 int* travel_cost_for_demand; // return correspond travelling cost for given demand

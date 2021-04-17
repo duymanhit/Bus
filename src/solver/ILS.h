@@ -7,77 +7,58 @@
 #ifndef BUS_ILS_H
 #define BUS_ILS_H
 
+void perturb(Sol &potential_sol);
+
 #endif //BUS_ILS_H
 #pragma once
+
 void ILS(int i_max, int i_ils) {
+    int nPerturb;
     Sol::start_running = clock();
-    best_sol.total_cost = oo;
-    //int max_sub_length = 2;
-    Sol potential_sol;
-    current_sol;
-    potential_sol.greedy();
-    current_sol.copy(potential_sol);
-    int u, v;
+    Sol currentSol;
+    Sol newSol;
+    bestSol.total_cost = oo;
+    int totalILS = i_ils * n_node;
+    int iter_ils;
     int last_i = i_max;
     while (i_max--) {
-        int iter_ils = 0;
-        while (iter_ils < i_ils) {
-            //printArray0N(current_sol.order_node, n_node);
-            current_sol.processFormOrderNode();
-            //out(current_sol.total_cost, potential_sol.total_cost);
-            if (current_sol.total_cost < potential_sol.total_cost) {
-                potential_sol.copy(current_sol);
-                //out(potential_sol.total_cost, potential_sol.n_negative);
-                iter_ils = 0;
-                //cout << "*";
-            }
-
-            //
+        currentSol.greedy();
+        currentSol.improve();
+        iter_ils = 0;
+        while (iter_ils < totalILS) {
             iter_ils++;
-            //	current copy potential
-            for (int i = 1; i <= n_node; i++) current_sol.order_node[i] = potential_sol.order_node[i];
-            // perturb
-            int n_operator = rand() % 2 + 2;
-            while (n_operator--) {
-                //int start_1 = rand() % n_node + 1;
-                //int start_2 = rand() % n_node + 1;
-                //int end_1 = min(n_node, start_1 + rand() % max_sub_length - 1);
-                //int end_2 = min(n_node, start_2 + rand() % max_sub_length - 1);
-                //if (!checkSwapSubArray(start_1, end_1, start_2, end_2)) {
-                //	n_operator++;
-                //	continue;
-                //}
-                //swapSubArray(current_sol.order_node, n_node + 1, start_1, end_1, start_2, end_2);
-                u = rand() % n_node + 1;
-                v = rand() % n_node + 1;
-                if (u == v) {
-                    n_operator++;
-                    continue;
-                }
-                swap(current_sol.order_node[u], current_sol.order_node[v]);
+            newSol.copyOrderNode(currentSol);
+            //perturb
+            nPerturb = random(1, 3);
+            for (int t = 1; t <= nPerturb; t++) perturb(newSol);
+            // improve
+            newSol.improve();
+            if (newSol.total_cost <  currentSol.total_cost) {
+                newSol.improve();
+                iter_ils = 0;
+                currentSol.copy(newSol);
             }
         }
-        if (potential_sol.total_cost < best_sol.total_cost) {
-            best_sol.copy(potential_sol);
-            //out(best_sol.total_cost, int(round(100 * double(best_sol.n_negative) / total_demand)));
+        if(currentSol.total_cost < bestSol.total_cost) {
+            bestSol.copy(currentSol);
             i_max += last_i - i_max;
             last_i = i_max;
         }
-        if (i_max) {
-            potential_sol.greedyFormCurrentSol();
-            current_sol.copy(potential_sol);
+    }
+    bestSol.processGiantToRoutes();
+    bestSol.outFile();
+    bestSol.check();
+    out(bestSol.total_cost, int(round(100 * double(bestSol.n_negative) / total_demand)));
+    printArray0N(bestSol.giant_tour, bestSol.n_giant_tour);
+    bestSol.statistic();
+//    cache_sol.copy(bestSol);
+}
 
-        }
-    }
-    if (check_instance && cache_sol.total_cost < best_sol.total_cost) {
-        best_sol.copy(cache_sol);
-        best_sol.processFormOrderNode();
-    }
-    best_sol.convertGiantToRoutes();
-    best_sol.outFile();
-    best_sol.check();
-    out(best_sol.total_cost, int(round(100 * double(best_sol.n_negative)/total_demand)));
-    printArray0N(best_sol.giant_tour, best_sol.n_giant_tour);
-    best_sol.statistic();
-    cache_sol.copy(best_sol);
+void perturb(Sol &potential_sol) {
+    int u, v;
+    do {
+        u = rand() % n_node + 1;
+        v = rand() % n_node + 1;
+    } while (u == v);
+    swap(potential_sol.order_node[u], potential_sol.order_node[v]);
 }

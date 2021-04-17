@@ -88,43 +88,10 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="D:/Research/Bus/src">
+			<Option target="Bus"/>
+		</Unit>
 		<Unit filename="D:/Research/Bus/src/Source.cpp">
-			<Option target="Bus"/>
-		</Unit>
-		<Unit filename="D:/Research/Bus/src/business/Function.h">
-			<Option target="Bus"/>
-		</Unit>
-		<Unit filename="D:/Research/Bus/src/business/StringConcat.h">
-			<Option target="Bus"/>
-		</Unit>
-		<Unit filename="D:/Research/Bus/src/config/Config.h">
-			<Option target="Bus"/>
-		</Unit>
-		<Unit filename="D:/Research/Bus/src/config/GlobalVariables.h">
-			<Option target="Bus"/>
-		</Unit>
-		<Unit filename="D:/Research/Bus/src/input/Input.h">
-			<Option target="Bus"/>
-		</Unit>
-		<Unit filename="D:/Research/Bus/src/input/VRP2Instance.h">
-			<Option target="Bus"/>
-		</Unit>
-		<Unit filename="D:/Research/Bus/src/model/Objects.h">
-			<Option target="Bus"/>
-		</Unit>
-		<Unit filename="D:/Research/Bus/src/model/Route.h">
-			<Option target="Bus"/>
-		</Unit>
-		<Unit filename="D:/Research/Bus/src/output/Output.h">
-			<Option target="Bus"/>
-		</Unit>
-		<Unit filename="D:/Research/Bus/src/solver/ILS.h">
-			<Option target="Bus"/>
-		</Unit>
-		<Unit filename="D:/Research/Bus/src/solver/Mip.h">
-			<Option target="Bus"/>
-		</Unit>
-		<Unit filename="D:/Research/Bus/src/solver/Sol.h">
 			<Option target="Bus"/>
 		</Unit>
 		<Unit filename="D:/Research/Bus/CMakeLists.txt">
