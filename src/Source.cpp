@@ -24,10 +24,10 @@ string inputDictionary = "../input/";
 string outputDictionary = "../output/out-";
 int seed = 100000007;
 void testStringConcat();
-
-#include "business/StringConcat.h"
+void testPermutation();
 #include "model/objects.h"
 #include "config/Config.h"
+#include "business/StringConcat.h"
 #include "business/Function.h"
 #include "model/Route.h"
 #include "solver/Sol.h"
@@ -40,7 +40,7 @@ void testStringConcat();
 #include "input/VRP2Instance.h"
 
 int main() {
-    testStringConcat();
+//    testStringConcat();
     cin >> seed;
     int i_max, i_ils;
     cin >> i_max  >> i_ils;
@@ -60,8 +60,8 @@ int main() {
             getInput(inputDictionary + "SBRPNI-" + name);
 
             instance_name = "SBRPNI-" + to_string(int(round(max_negative_percentage_of_student * 100))) + "-" + name;
-            ILS(i_max, i_ils);
-//            GRASP(i_ils);
+//            ILS(i_max, i_ils);
+            GRASP(i_max);
 //            check_instance = true;
             // uncomment to run mip
             //instance_name = "mip-SBRPNI-" + to_string(int(round(max_negative_percentage_of_student * 100))) + "-" + name;
@@ -87,6 +87,7 @@ void testStringConcat() {
         printArray(a, n * 2);
         printArray(b, n * 2);
     }
+
 //for (int start_1 = 1; start_1 <= 3; start_1++)
 //	for (int end_1 = start_1 - 1; end_1 <= 3; end_1++)
 //		for (int start_2 = start_1 + 1; start_2 <= 3; start_2++)
@@ -95,5 +96,18 @@ void testStringConcat() {
 //					out(start_1, end_1, start_2, end_2);
 //				}
 //			}
+
+}
+void testPermutation() {
+    int myints[] = {1,2,3,5,6,7};
+
+    std::sort (myints,myints+7);
+
+    do {
+        for(int i = 1; i < 7; i++) {
+            myints[i];
+        }
+    } while ( std::next_permutation(myints,myints+7) );
+
 
 }

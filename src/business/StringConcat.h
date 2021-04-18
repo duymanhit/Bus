@@ -196,8 +196,8 @@ int cache_a[105], cache_b[105];
 template<typename T>
 void swap2subArray(T &a, const int &tend_1, const int &start_1, const int &end_1, T &b, const int &tend_2, const int &start_2, const int &end_2) {
     int i, n, end;
-    for (i = 1; a[i] != 0; i++) cache_a[i] = a[i];
-    for (i = 1; b[i] != 0; i++) cache_b[i] = b[i];
+    for (i = 1; i <= max_nodes_per_route; i++) cache_a[i] = a[i];
+    for (i = 1; i <= max_nodes_per_route; i++) cache_b[i] = b[i];
     // process a
     n = start_1;
     if (tend_2 > 0) {
@@ -228,5 +228,9 @@ void swap2subArray(T &a, const int &tend_1, const int &start_1, const int &end_1
         b[n++] = cache_b[i];
     }
     b[n++] = 0;
-
+//    cout << tend_1 << " " << start_1 << " " << end_1 << " " << tend_2 << " " << start_2 << " " << end_2 << endl;
+//    printArray0N(cache_a, 7);
+//    printArray0N(cache_b, 7);
+//    printArray0N(a, 7);
+//    printArray0N(b, 7);
 }

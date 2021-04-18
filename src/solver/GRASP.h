@@ -14,18 +14,19 @@ void GRASP(int nGrasp) {
     bestSol.total_cost = oo;
     int iter_grasp = 0;
     int totalGrasp = nGrasp * n_node;
-    Sol currentSol;
+    Sol greedySol;
+    Solution currentSol;
     while (iter_grasp < totalGrasp) {
         iter_grasp++;
-        currentSol.greedy();
-        currentSol.improve();
-        printArray0N(currentSol.giant_tour, bestSol.n_giant_tour);
+        greedySol.greedy();
+        currentSol.copyOrderNode(greedySol.order_node);
+        currentSol.processFormOrderNode();
 
-        if (currentSol.total_cost < bestSol.total_cost) {
+        if (currentSol.totalCost < bestSol.total_cost) {
             iter_grasp = 0;
-            out(currentSol.total_cost, bestSol.total_cost);
+            out(currentSol.totalCost, bestSol.total_cost);
             //out(bestSol.total_cost, currentSol.total_cost);
-            bestSol.copy(currentSol);
+            currentSol.copyFor(bestSol);
         }
     }
     bestSol.processGiantToRoutes();

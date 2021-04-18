@@ -31,9 +31,9 @@ int* fixed_cost_for_demand; // return correspond fixed cost for given demand
 int* travel_cost_for_demand; // return correspond travelling cost for given demand
 int f_split[maxn][maxm]; // split
 II pre_split[maxn][maxm]; // split
-//int f[1 << 8][8][100];
-//int pre[1 << 8][8][100];
-//III deque[10000005];
+int f[1 << 8][8][100];
+int pre[1 << 8][8][100];
+III deque[10000005];
 ofstream fileOut;
 ifstream fileIn;
 string instance_name;

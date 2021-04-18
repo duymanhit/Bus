@@ -90,4 +90,5 @@ void process_input() {
         }
     for (int j = 0; j <= n_node; j++) travel_time[0][j] = 0;
     Sol::init();
+    Solution::init();
 }

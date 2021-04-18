@@ -465,18 +465,20 @@ string
 -
 iomanip
 -
-business/StringConcat.h
-D:/Research/Bus/src/business/StringConcat.h
 model/objects.h
 D:/Research/Bus/src/model/Objects.h
 config/Config.h
 D:/Research/Bus/src/config/Config.h
+business/StringConcat.h
+D:/Research/Bus/src/business/StringConcat.h
 business/Function.h
 D:/Research/Bus/src/business/Function.h
 model/Route.h
 D:/Research/Bus/src/model/Route.h
 solver/Sol.h
 D:/Research/Bus/src/solver/Sol.h
+solver/Solution.h
+D:/Research/Bus/src/solver/Solution.h
 solver/Mip.h
 D:/Research/Bus/src/solver/Mip.h
 config/GlobalVariables.h
@@ -485,6 +487,8 @@ Input/Input.h
 D:/Research/Bus/src/input/Input.h
 solver/ILS.h
 D:/Research/Bus/src/solver/ILS.h
+solver/GRASP.h
+D:/Research/Bus/src/solver/GRASP.h
 input/VRP2Instance.h
 D:/Research/Bus/src/input/VRP2Instance.h
 
@@ -504,9 +508,13 @@ D:/Research/Bus/src/model/Objects.h
 
 D:/Research/Bus/src/model/Route.h
 
+D:/Research/Bus/src/solver/GRASP.h
+
 D:/Research/Bus/src/solver/ILS.h
 
 D:/Research/Bus/src/solver/Mip.h
 
 D:/Research/Bus/src/solver/Sol.h
+
+D:/Research/Bus/src/solver/Solution.h
 
