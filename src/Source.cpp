@@ -60,8 +60,8 @@ int main() {
             getInput(inputDictionary + "SBRPNI-" + name);
 
             instance_name = "SBRPNI-" + to_string(int(round(max_negative_percentage_of_student * 100))) + "-" + name;
-//            ILS(i_max, i_ils);
-            GRASP(i_max);
+            ILS(i_max, i_ils);
+//            GRASP(i_max);
 //            check_instance = true;
             // uncomment to run mip
             //instance_name = "mip-SBRPNI-" + to_string(int(round(max_negative_percentage_of_student * 100))) + "-" + name;

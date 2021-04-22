@@ -144,7 +144,22 @@ int *string_concat_cache;
 int string_concat_pointer;
 
 template<typename T>
-void swapSubArray(T *a, int n, int start_1, int end_1, int start_2, int end_2) {
+void swapSubArray(T *a, int n, const int &tend_1, int start_1, int end_1, const int &tend_2, int start_2, int end_2) {
+    int u, v;
+    if(tend_1 < 1) {
+        u = start_1, v= end_1;
+        while (u < v) {
+            swap (a[u], a[v]);
+            u++; v--;
+        }
+    }
+    if(tend_2 < 1) {
+        u = start_2, v= end_2;
+        while (u < v) {
+            swap (a[u], a[v]);
+            u++; v--;
+        }
+    }
     if (end_1 - start_1 == end_2 - start_2) {
         for (int i = end_1 - start_1; i >= 0; i--) {
             swap(a[start_1 + i], a[start_2 + i]);
@@ -172,6 +187,7 @@ void swapSubArray(T *a, int n, int start_1, int end_1, int start_2, int end_2) {
         a[i] = string_concat_cache[string_concat_pointer];
         string_concat_pointer = string_concat_next[string_concat_pointer];
     }
+
 }
 
 template<typename T>

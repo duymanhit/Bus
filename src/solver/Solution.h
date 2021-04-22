@@ -86,8 +86,6 @@ struct Solution {
 
     inline bool localSearchExtraRoutes();
 
-    void localSearch();
-
     void processFormOrderNode();
 
     void copy(Solution another_Solution);
@@ -107,6 +105,8 @@ struct Solution {
     bool localSearchIntraRoutes();
 
     inline int getNegativeStudentForm(const int &start, int time);
+
+    bool localSearch();
 };
 
 clock_t Solution::startRunning;
@@ -232,7 +232,6 @@ void Solution::split() {
         nRoute++;
     }
     preprocessRoutes();
-    check();
     //convertRoutesToGiant();
     //printArray0N(giantTour, nGiantTour);
     //check();
@@ -350,7 +349,7 @@ inline int Solution::getNegativeStudentForm(const int &start, int time) {
     int result = 0, node;
     for (int i = start; true; i++) {
         node = cacheRoute[i];
-        if(i != 0 && node == 0) break;
+        if (i != 0 && node == 0) break;
         if (!checkTimeNode(node, time)) return oo;
         result += (checkNegative(node, time) - isNegativeNode[node]) * nodes[node].demand;
         time += travel_time[cacheRoute[i + 1]][node];
@@ -427,6 +426,8 @@ inline bool Solution::localSearchExtraRoutes() {
     bool result = false;
     int r_1, r_2, start_1, end_1, start_2, end_2, newDemand_1, newDemand_2, newTime_1, newTime_2, negative_1, negative_2, diffTime_1, diffTime_2,
             newReverseTime_1, newReverseTime_2, diffReverseTime_1, diffReverseTime_2, reverseNegative_1, reverseNegative_2, newCost, newNegative, oldNegative;
+    int max_k = 5;
+    int maxEnd_1, maxEnd_2;
     while (checkImprove) {
         checkImprove = false;
         for (r_1 = 0; r_1 < nRoute; r_1++) {
@@ -435,10 +436,12 @@ inline bool Solution::localSearchExtraRoutes() {
                     lastExtraRoutes[routes[r_1][routeKey]][routes[r_2][routeKey]] = currentColor;
                     // check local search r_1 and r_2
                     if (routeLength[r_1] <= 1 || routeLength[r_2] <= 1) continue;
+                    maxEnd_1 = routeLength[r_1];
+                    maxEnd_2 = routeLength[r_2];
                     for (start_1 = 1; start_1 <= routeLength[r_1]; start_1++)
-                        for (end_1 = start_1 - 1; end_1 < routeLength[r_1]; end_1++)
+                        for (end_1 = start_1 - 1; end_1 < maxEnd_1; end_1++)
                             for (start_2 = 1; start_2 <= routeLength[r_2]; start_2++)
-                                for (end_2 = start_2 - 1; true; end_2++) {
+                                for (end_2 = start_2 - 1; end_2 < maxEnd_2; end_2++) {
                                     if (start_1 > routeLength[r_1] || end_1 >= routeLength[r_1] ||
                                         start_2 > routeLength[r_2] || end_2 >= routeLength[r_2])
                                         break;
@@ -471,10 +474,12 @@ inline bool Solution::localSearchExtraRoutes() {
                                                  getNegativeStudentsWithStartTime(r_1, 1, start_1, end_1, timeOfRoutes[r_2][start_2 - 1] + travel_time[routes[r_1][start_1]][routes[r_2][start_2 - 1]]);
                                     if (nNegative + negative_1 + negative_2 > max_negative_students)
                                         goto reverse_2;
+/*
                                     newCost = totalCost - (routeCost[r_1] + routeCost[r_2])
                                               + (getCostRoute(newDemand_1, newTime_1) +
                                                  getCostRoute(newDemand_2, newTime_2));
                                     newNegative = nNegative + negative_1 + negative_2;
+*/
                                     swap2subArray(routes[r_1], 1, start_1, end_1, routes[r_2], 1, start_2, end_2);
                                     goto improve;
                                     reverse_2:
@@ -497,10 +502,12 @@ inline bool Solution::localSearchExtraRoutes() {
                                         }
                                         if (nNegative + negative_1 + reverseNegative_2 > max_negative_students)
                                             goto reverse_1;
+/*
                                         newCost = totalCost - (routeCost[r_1] + routeCost[r_2])
                                                   + (getCostRoute(newDemand_1, newTime_1) +
                                                      getCostRoute(newDemand_2, newReverseTime_2));
                                         newNegative = nNegative + negative_1 + reverseNegative_2;
+*/
                                         swap2subArray(routes[r_1], -1, start_1, end_1, routes[r_2], 1, start_2, end_2);
                                         goto improve;
                                     };
@@ -525,10 +532,12 @@ inline bool Solution::localSearchExtraRoutes() {
                                         }
                                         if (nNegative + reverseNegative_1 + negative_2 > max_negative_students)
                                             goto reverse_both;
+/*
                                         newCost = totalCost - (routeCost[r_1] + routeCost[r_2])
                                                   + (getCostRoute(newDemand_1, newReverseTime_1) +
                                                      getCostRoute(newDemand_2, newTime_2));
                                         newNegative = nNegative + reverseNegative_1 + negative_2;
+*/
 
                                         swap2subArray(routes[r_1], 1, start_1, end_1, routes[r_2], -1, start_2, end_2);
                                         goto improve;
@@ -553,23 +562,29 @@ inline bool Solution::localSearchExtraRoutes() {
                                         }
                                         if (nNegative + reverseNegative_1 + reverseNegative_2 > max_negative_students)
                                             continue;
+/*
                                         newCost = totalCost - (routeCost[r_1] + routeCost[r_2])
                                                   + (getCostRoute(newDemand_1, newReverseTime_1) +
                                                      getCostRoute(newDemand_2, newReverseTime_2));
                                         newNegative = nNegative + reverseNegative_1 + reverseNegative_2;
+*/
 
                                         swap2subArray(routes[r_1], -1, start_1, end_1, routes[r_2], -1, start_2, end_2);
                                     };
                                     improve:
                                     {
                                         checkImprove = true;
-                                        int oldCost = totalCost;
+                                        //int oldCost = totalCost;
                                         oldNegative = nNegative;
                                         preprocessRoute(r_1);
                                         preprocessRoute(r_2);
                                         if (oldNegative > nNegative) {
                                             currentColor++;
                                         }
+                                        maxEnd_1 = min(start_1 + max_k, routeLength[r_1]);
+                                        maxEnd_2 = min(start_2 + max_k, routeLength[r_2]);
+
+/*
                                         check();
                                         //cout <<"***";
                                         if (oldCost <= totalCost || newCost != totalCost || newNegative != nNegative) {
@@ -578,6 +593,7 @@ inline bool Solution::localSearchExtraRoutes() {
                                             out(newNegative, nNegative);
                                             while (true);
                                         }
+*/
                                         //printArray0N(giantTour, nGiantTour);
                                     };
                                 }
@@ -594,44 +610,105 @@ inline bool Solution::localSearchIntraRoutes() {
     bool check_improve = true;
     bool result = false;
     int r, start_1, end_1, start_2, end_2, diffTime_1, diffTime_2, diffReverseTime_1, diffReverseTime_2, newCost, negative, newNegative, oldNegative;
+    int max_k = 3;
+    int maxEnd_1, maxEnd_2;
     while (check_improve) {
         check_improve = false;
         for (r = 0; r < nRoute; r++)
             if (lastIntraRoutes[routes[r][routeKey]] != currentColor) {
                 lastIntraRoutes[routes[r][routeKey]] = currentColor;
+                maxEnd_1 = routeLength[r];
+                maxEnd_2 = routeLength[r];
                 for (start_1 = 1; start_1 <= routeLength[r]; start_1++)
-                    for (end_1 = start_1 - 1; end_1 < routeLength[r]; end_1++)
+                    for (end_1 = start_1 - 1; end_1 < maxEnd_1; end_1++)
                         for (start_2 = start_1 + 1; start_2 <= routeLength[r]; start_2++)
-                            for (end_2 = start_2 - 1; end_2 < routeLength[r]; end_2++) {
+                            for (end_2 = start_2 - 1; end_2 < maxEnd_2; end_2++) {
                                 if (!checkSwapSubArray(start_1, end_1, start_2, end_2)) continue;
                                 diffTime_1 = getDiffTimeSwap(r, start_1, end_1, r, 1, start_2, end_2);
                                 diffTime_2 = getDiffTimeSwap(r, start_2, end_2, r, 1, start_1, end_1);
-                                if (diffTime_1 + diffTime_2 >= 0) continue;
-                                newCost = totalCost + (diffTime_1 + diffTime_2) * travel_cost_for_demand[demandOfRoutes[r][routeLength[r]]];
+                                if (diffTime_1 + diffTime_2 >= 0)
+                                    goto reverse_1;
                                 // n = end_route[route_1] - start_route[route_1];
                                 cloneToCache(r);
-                                swapSubArray(cacheRoute, routeLength[r], start_1, end_1, start_2, end_2);
+                                swapSubArray(cacheRoute, routeLength[r], 1, start_1, end_1, 1, start_2, end_2);
                                 negative = getNegativeStudentForm(start_1 - 1, timeOfRoutes[r][start_1 - 1]);
                                 if (nNegative + negative > max_negative_students) {
-                                    continue;
+                                    goto reverse_1;
                                 }
-                                newNegative = nNegative + negative;
-                                check_improve = true;
-                                pasteFormCache(r);
-                                int oldCost = totalCost;
-                                oldNegative = nNegative;
-                                preprocessRoute(r);
-                                if (oldNegative > nNegative) {
-                                    lastIntraRoutes[routes[r][routeKey]] = ++currentColor;
-                                }
-                                check();
-                                //cout <<"***";
-                                if (oldCost <= totalCost || newCost != totalCost || newNegative != nNegative) {
-                                    cout << "error";
-                                    out(newCost, totalCost);
-                                    out(newNegative, nNegative);
-                                    while (true);
-                                }
+//                                newCost = totalCost + (diffTime_1 + diffTime_2) * travel_cost_for_demand[demandOfRoutes[r][routeLength[r]]];
+                                goto improve;
+/*                                reverse_2:
+                                {
+                                    if (end_1 == 0 || start_1 >= end_1)
+                                        goto reverse_1;
+                                    diffReverseTime_2 = getDiffTimeSwap(r, start_2, end_2, r, -1, end_1, start_1);
+                                    if (diffTime_1 + diffReverseTime_2 >= 0)
+                                        goto reverse_1;
+                                    cloneToCache(r);
+                                    swapSubArray(cacheRoute, routeLength[r], -1, start_1, end_1, 1, start_2, end_2);
+                                    negative = getNegativeStudentForm(start_1 - 1, timeOfRoutes[r][start_1 - 1]);
+                                    if (nNegative + negative > max_negative_students) {
+                                        goto reverse_1;
+                                    }
+                                    cout <<"111";
+                                    newCost = totalCost + (diffTime_1 + diffReverseTime_2) * travel_cost_for_demand[demandOfRoutes[r][routeLength[r]]];
+                                    goto improve;
+                                };*/
+                                reverse_1:
+                                {
+                                    if (end_2 == 0 || start_2 >= end_2)
+                                        continue;
+                                    diffReverseTime_1 = getDiffTimeSwap(r, start_1, end_1, r, -1, end_2, start_2);
+                                    if (diffReverseTime_1 + diffTime_2 >= 0)
+                                        continue;
+                                    cloneToCache(r);
+                                    swapSubArray(cacheRoute, routeLength[r], 1, start_1, end_1, -1, start_2, end_2);
+                                    negative = getNegativeStudentForm(start_1 - 1, timeOfRoutes[r][start_1 - 1]);
+                                    if (nNegative + negative > max_negative_students) {
+                                        continue;
+                                    }
+//                                    newCost = totalCost + (diffReverseTime_1 + diffTime_2) * travel_cost_for_demand[demandOfRoutes[r][routeLength[r]]];
+/*
+                                    //goto improve;
+*/
+                                };
+/*                                reverse_both:
+                                {
+                                    if (end_1 == 0 || start_1 >= end_1)
+                                        continue;
+                                    if (diffReverseTime_1 + diffReverseTime_2 >= 0)
+                                        continue;
+                                    cloneToCache(r);
+                                    swapSubArray(cacheRoute, routeLength[r], -1, start_1, end_1, -1, start_2, end_2);
+                                    negative = getNegativeStudentForm(start_1 - 1, timeOfRoutes[r][start_1 - 1]);
+                                    if (nNegative + negative > max_negative_students) {
+                                        continue;
+                                    }
+                                    newCost = totalCost + (diffReverseTime_1 + diffReverseTime_2) * travel_cost_for_demand[demandOfRoutes[r][routeLength[r]]];
+                                    cout << "333";
+                                };*/
+                                improve:
+                                {
+                                    newNegative = nNegative + negative;
+                                    check_improve = true;
+                                    pasteFormCache(r);
+//                                    int oldCost = totalCost;
+                                    oldNegative = nNegative;
+                                    preprocessRoute(r);
+                                    if (oldNegative > nNegative) {
+                                        lastIntraRoutes[routes[r][routeKey]] = ++currentColor;
+                                    }
+                                    maxEnd_1 = min(start_1 + max_k, routeLength[r]);
+                                    maxEnd_2 = min(start_2 + max_k, routeLength[r]);
+//                                    check();
+//                                    if (oldCost <= totalCost || newCost != totalCost || newNegative != nNegative) {
+//                                        cout << "error";
+//                                        out(newCost, totalCost);
+//                                        out(newNegative, nNegative);
+//                                        while (true);
+//                                    }
+
+                                };
                             }
             }
         if (check_improve) {
@@ -644,38 +721,40 @@ inline bool Solution::localSearchIntraRoutes() {
 inline void Solution::processFormOrderNode() {
     initColor();
     split();
-    localSearchExtraRoutes();
-    localSearchIntraRoutes();
+    localSearch();
     convertRoutesToGiant();
     convertRoutesToOrder();
 }
 
+inline bool Solution::localSearch() {
+    bool result = localSearchIntraRoutes();
+    bool check = true;
+    while (check) {
+        if(localSearchExtraRoutes()) {
+            result = true;
+            check = localSearchIntraRoutes();
+        }
+        else {
+            break;
+        }
+    }
+    return result;
+}
 
 inline void Solution::improve() {
+    initColor();
     int oldCost = INT_MAX;
     do {
         split();
         if (oldCost > totalCost) {
             oldCost = totalCost;
         } else {
-            if (oldCost < totalCost) {
-                cout << "ERROR";
-                while (true);
-            }
             break;
         }
-        localSearch();
-        if (oldCost > totalCost) {
-            oldCost = totalCost;
-        } else {
-            if (oldCost < totalCost) {
-                cout << "ERROR";
-                while (true);
-            }
-            break;
-        }
+        if(localSearch()) break;
         convertRoutesToOrder();
     } while (true);
+    convertRoutesToGiant();
 }
 
 inline void Solution::copy(Solution another_Solution) {
@@ -701,6 +780,7 @@ inline void Solution::copyFor(Sol &targetSol) {
     for (int i = 0; i <= nGiantTour; i++) targetSol.giant_tour[i] = giantTour[i];
     for (int i = 0; i <= n_node; i++) targetSol.order_node[i] = orderNode[i];
 }
+
 
 bool Solution::check() {
     convertRoutesToGiant();

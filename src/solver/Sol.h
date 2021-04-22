@@ -486,7 +486,7 @@ void Sol::localSearch() {
                             // swap subtours
                             check_improve = true;
                             //printArray0N(giantTour, nGiantTour);
-                            swapSubArray(giant_tour, n_giant_tour, start_1, end_1, start_2, end_2);
+                            swapSubArray(giant_tour, n_giant_tour, 1,start_1, end_1,1, start_2, end_2);
                             processGiantToRoutes();
                             if (check() != 0 || new_cost != total_cost || new_negative != n_negative) {
                             	out(new_cost, total_cost);
@@ -504,7 +504,8 @@ void Sol::localSearch() {
                             cloneToCache(start_route[route_1], end_route[route_1]);
                             swapSubArray(cache_route + start_route[route_1],
                                          end_route[route_1] - start_route[route_1] + 1,
-                                         start_1 - start_route[route_1], end_1 - start_route[route_1],
+                                         1,
+                                         start_1 - start_route[route_1], end_1 - start_route[route_1],1,
                                          start_2 - start_route[route_1], end_2 - start_route[route_1]);
                             negative_1 = getNegativeStudentForm(start_1 - 1, time_giant[start_1 - 1]);
                             if (n_negative + negative_1 > max_negative_students) {

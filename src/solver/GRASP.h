@@ -20,7 +20,7 @@ void GRASP(int nGrasp) {
         iter_grasp++;
         greedySol.greedy();
         currentSol.copyOrderNode(greedySol.order_node);
-        currentSol.processFormOrderNode();
+        currentSol.improve();
 
         if (currentSol.totalCost < bestSol.total_cost) {
             iter_grasp = 0;

@@ -7,7 +7,7 @@
 #ifndef BUS_ILS_H
 #define BUS_ILS_H
 
-void perturb(Sol &potential_sol);
+void perturb(Solution &potential_sol);
 
 #endif //BUS_ILS_H
 #pragma once
@@ -15,32 +15,36 @@ void perturb(Sol &potential_sol);
 void ILS(int i_max, int i_ils) {
     int nPerturb;
     Sol::start_running = clock();
-    Sol currentSol;
-    Sol newSol;
+    Sol greedySol;
+    Solution currentSol;
+    Solution newSol;
     bestSol.total_cost = oo;
     int totalILS = i_ils * n_node;
     int iter_ils;
     int last_i = i_max;
     while (i_max--) {
-        currentSol.greedy();
+        greedySol.greedy();
+        currentSol.copyOrderNode(greedySol.order_node);
         currentSol.improve();
         iter_ils = 0;
         while (iter_ils < totalILS) {
             iter_ils++;
-            newSol.copyOrderNode(currentSol);
+            newSol.copyOrderNode(currentSol.orderNode);
             //perturb
             nPerturb = random(1, 3);
             for (int t = 1; t <= nPerturb; t++) perturb(newSol);
             // improve
-            newSol.improve();
-            if (newSol.total_cost <  currentSol.total_cost) {
+            newSol.processFormOrderNode();
+            if (newSol.totalCost < currentSol.totalCost) {
                 newSol.improve();
+//                out(newSol.totalCost, currentSol.totalCost);
                 iter_ils = 0;
                 currentSol.copy(newSol);
             }
         }
-        if(currentSol.total_cost < bestSol.total_cost) {
-            bestSol.copy(currentSol);
+        if(currentSol.totalCost < bestSol.total_cost) {
+//            out(currentSol.totalCost, bestSol.total_cost);
+            currentSol.copyFor(bestSol);
             i_max += last_i - i_max;
             last_i = i_max;
         }
@@ -54,11 +58,11 @@ void ILS(int i_max, int i_ils) {
 //    cache_sol.copy(bestSol);
 }
 
-void perturb(Sol &potential_sol) {
+void perturb(Solution &potential_sol) {
     int u, v;
     do {
         u = rand() % n_node + 1;
         v = rand() % n_node + 1;
     } while (u == v);
-    swap(potential_sol.order_node[u], potential_sol.order_node[v]);
+    swap(potential_sol.orderNode[u], potential_sol.orderNode[v]);
 }
