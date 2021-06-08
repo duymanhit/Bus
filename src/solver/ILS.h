@@ -21,8 +21,8 @@ void ILS(int i_max, int i_ils) {
     bestSol.total_cost = oo;
     int totalILS = i_ils * n_node;
     int iter_ils;
-    int last_i = i_max;
-    while (i_max--) {
+    int lastTurn = 1;
+    for (int iterStart = 1; iterStart <= i_max; iterStart++) {
         greedySol.greedy();
         currentSol.copyOrderNode(greedySol.order_node);
         currentSol.improve();
@@ -45,12 +45,11 @@ void ILS(int i_max, int i_ils) {
         if(currentSol.totalCost < bestSol.total_cost) {
 //            out(currentSol.totalCost, bestSol.total_cost);
             currentSol.copyFor(bestSol);
-            i_max += last_i - i_max;
-            last_i = i_max;
+            lastTurn = iterStart;
         }
     }
     bestSol.processGiantToRoutes();
-    bestSol.outFile();
+    bestSol.outFile(lastTurn);
     bestSol.check();
     out(bestSol.total_cost, int(round(100 * double(bestSol.n_negative) / total_demand)));
     printArray0N(bestSol.giant_tour, bestSol.n_giant_tour);

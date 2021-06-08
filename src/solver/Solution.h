@@ -426,7 +426,7 @@ inline bool Solution::localSearchExtraRoutes() {
     bool result = false;
     int r_1, r_2, start_1, end_1, start_2, end_2, newDemand_1, newDemand_2, newTime_1, newTime_2, negative_1, negative_2, diffTime_1, diffTime_2,
             newReverseTime_1, newReverseTime_2, diffReverseTime_1, diffReverseTime_2, reverseNegative_1, reverseNegative_2, newCost, newNegative, oldNegative;
-    int max_k = 5;
+    int max_k = 4;
     int maxEnd_1, maxEnd_2;
     while (checkImprove) {
         checkImprove = false;
@@ -583,7 +583,6 @@ inline bool Solution::localSearchExtraRoutes() {
                                         }
                                         maxEnd_1 = min(start_1 + max_k, routeLength[r_1]);
                                         maxEnd_2 = min(start_2 + max_k, routeLength[r_2]);
-
 /*
                                         check();
                                         //cout <<"***";
@@ -667,6 +666,7 @@ inline bool Solution::localSearchIntraRoutes() {
                                     if (nNegative + negative > max_negative_students) {
                                         continue;
                                     }
+                                    out(start_1, end_1, start_2, end_2);
 //                                    newCost = totalCost + (diffReverseTime_1 + diffTime_2) * travel_cost_for_demand[demandOfRoutes[r][routeLength[r]]];
 /*
                                     //goto improve;

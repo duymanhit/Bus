@@ -16,7 +16,7 @@ void mip() {
     cplex.setParam(IloCplex::TiLim, 60 * 60);
     cplex.setParam(IloCplex::WorkMem, 12 * 1024);
     cplex.setParam(IloCplex::TreLim, 12 * 1024);
-    fileOut.open("output/out-" + instance_name);
+    fileOut.open(outputDictionary + instance_name);
     cplex.setOut(fileOut);
     IloNumVarArray l(env, n_node + 1, 0, max_nodes_per_route); // constraint(9)
     IloNumVarArray d(env, n_node + 1, 0, bus_types[n_bus_type].capacity);
@@ -24,9 +24,11 @@ void mip() {
     IloBoolVarArray r(env, n_node + 1);
     IloArray <IloBoolVarArray> x(env, n_node + 1);
     IloArray <IloBoolVarArray> y(env, n_node + 1);
+    IloArray <IloNumVarArray> cost(env, n_node + 1);
     for (int i = 0; i <= n_node; i++) {
         x[i] = IloBoolVarArray(env, n_node + 1);
         y[i] = IloBoolVarArray(env, n_bus_type + 1);
+        cost[i]= IloNumVarArray(env, n_bus_type + 1, 0, max_time_per_route * bus_types[n_bus_type].travelling_cost);
     }
     // constraint (2)
     for (int i = 1; i <= n_node; i++) {
@@ -85,13 +87,22 @@ void mip() {
         model.add(con <= max_negative_students);
         con.end();
     }
+    //contraint(13)
+    {
+        for (int i = 1; i <= n_node; i++) {
+            for(int j = 1; j <= n_bus_type; j++) {
+                int M = bus_types[j].travelling_cost * max_time_per_route;
+                model.add(cost[i][j] - bus_types[j].travelling_cost * time[i] - (M + bus_types[j].fixed_cost) * y[i][j] >= -M);
+            }
+        }
+    }
     /// <summary>
     /// obj
     /// </summary>
     IloExpr obj(env);
     for (int i = 1; i <= n_node; i++) {
         for (int j = 1; j <= n_bus_type; j++) {
-            obj += y[i][j] * (bus_types[j].fixed_cost + time[i] * bus_types[j].travelling_cost);
+            obj += cost[i][j];
         }
     }
     model.add(IloMinimize(env, obj));

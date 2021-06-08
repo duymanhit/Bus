@@ -748,7 +748,7 @@ inline void Sol::outFile(double gap) {
     }
     // runtime
     double runtime = ((double) (clock() - start_running) / CLOCKS_PER_SEC);
-    fileOut.open(outputDictionary + instance_name);
+    //fileOut.open(outputDictionary + instance_name);
     fileOut << instance_name << "\t" << n_node << "\t" << res_route << "\t" << res_1 << "\t" << res_2 << "\t" << res_3
             << "\t"
             << ((double) n_negative / total_demand) * 100 << "\t" << total_cost << "\t" << runtime << "\t" << gap
