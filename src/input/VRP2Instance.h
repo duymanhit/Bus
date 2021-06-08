@@ -67,7 +67,7 @@ void convertVRPinstance(const string& path) {
             //out(double(i), nodes[i].x, nodes[i].y, double(nodes[i].demand));
             continue;
         }
-        nodes[i].demand = 1;
+        nodes[i].demand = rand() % 14 + 2;
         //out(double(i), nodes[i].x, nodes[i].y, double(nodes[i].demand));
     }
     int max_dis = 0;
@@ -82,23 +82,23 @@ void convertVRPinstance(const string& path) {
     max_negative_percentage_of_student = 1.0;
     process_input();
     for (int i = 0; i <= n_node; i++) nodes[i].current_time = oo;
-    ILS(1,2000);
-    Sol sol_1;
-    sol_1.copy(bestSol);
-    for (int i = 0; i < bestSol.n_giant_tour - 1; i++) {
-        if (bestSol.giant_tour[i] == 0 && bestSol.giant_tour[i + 1] != 0) {
-            int start = i + 1;
-            int n = 0;
-            for (int i = start; bestSol.giant_tour[i] != 0; i++) n++;
-            int capacities[] = { 15, 28, 44, 44};
-            int capacity;
-            do {
-                capacity = capacities[rand() % 4];
-            } while ((double)(capacity) / n > 15);
-            int* demand = generateRouteWithDemand(n, capacity - rand() % 2, 2, 15);
-            for (int i = 0; i < n; i++) nodes[bestSol.giant_tour[start + i]].demand = demand[i];
-        }
-    }
+//    ILS(1,2000);
+//    Sol sol_1;
+//    sol_1.copy(bestSol);
+//    for (int i = 0; i < bestSol.n_giant_tour - 1; i++) {
+//        if (bestSol.giant_tour[i] == 0 && bestSol.giant_tour[i + 1] != 0) {
+//            int start = i + 1;
+//            int n = 0;
+//            for (int i = start; bestSol.giant_tour[i] != 0; i++) n++;
+//            int capacities[] = { 15, 28, 44, 44};
+//            int capacity;
+//            do {
+//                capacity = capacities[rand() % 4];
+//            } while ((double)(capacity) / n > 15);
+//            int* demand = generateRouteWithDemand(n, capacity - rand() % 2, 2, 15);
+//            for (int i = 0; i < n; i++) nodes[bestSol.giant_tour[start + i]].demand = demand[i];
+//        }
+//    }
     //for (int i = 0; i < n_node; i++)
     //	out(int(nodes[i].x), int(nodes[i].y), nodes[i].demand);
     {

@@ -666,7 +666,7 @@ inline bool Solution::localSearchIntraRoutes() {
                                     if (nNegative + negative > max_negative_students) {
                                         continue;
                                     }
-                                    out(start_1, end_1, start_2, end_2);
+//                                    out(start_1, end_1, start_2, end_2);
 //                                    newCost = totalCost + (diffReverseTime_1 + diffTime_2) * travel_cost_for_demand[demandOfRoutes[r][routeLength[r]]];
 /*
                                     //goto improve;

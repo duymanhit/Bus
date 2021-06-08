@@ -49,7 +49,7 @@ void ILS(int i_max, int i_ils) {
         }
     }
     bestSol.processGiantToRoutes();
-    bestSol.outFile(lastTurn);
+    bestSol.outFile(lastTurn, true);
     bestSol.check();
     out(bestSol.total_cost, int(round(100 * double(bestSol.n_negative) / total_demand)));
     printArray0N(bestSol.giant_tour, bestSol.n_giant_tour);

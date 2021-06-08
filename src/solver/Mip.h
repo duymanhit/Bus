@@ -9,6 +9,7 @@
 
 #endif //BUS_MIP_H
 #pragma once
+
 void mip() {
     IloEnv env;
     IloModel model(env);
@@ -22,18 +23,19 @@ void mip() {
     IloNumVarArray d(env, n_node + 1, 0, bus_types[n_bus_type].capacity);
     IloNumVarArray time(env, n_node + 1, 0, max_time_per_route); // constraint (10)
     IloBoolVarArray r(env, n_node + 1);
-    IloArray <IloBoolVarArray> x(env, n_node + 1);
-    IloArray <IloBoolVarArray> y(env, n_node + 1);
-    IloArray <IloNumVarArray> cost(env, n_node + 1);
+    IloArray<IloBoolVarArray> x(env, n_node + 1);
+    IloArray<IloBoolVarArray> y(env, n_node + 1);
+    IloArray<IloNumVarArray> cost(env, n_node + 1);
     for (int i = 0; i <= n_node; i++) {
         x[i] = IloBoolVarArray(env, n_node + 1);
         y[i] = IloBoolVarArray(env, n_bus_type + 1);
-        cost[i]= IloNumVarArray(env, n_bus_type + 1, 0, max_time_per_route * bus_types[n_bus_type].travelling_cost);
+        cost[i] = IloNumVarArray(env, n_bus_type + 1, 0, max_time_per_route * bus_types[n_bus_type].travelling_cost + bus_types[n_bus_type].fixed_cost + 1);
     }
     // constraint (2)
     for (int i = 1; i <= n_node; i++) {
         IloExpr con(env);
-        for (int j = 1; j <= n_node; j++) if (i != j)
+        for (int j = 1; j <= n_node; j++)
+            if (i != j)
                 con += x[i][j];
         for (int j = 1; j <= n_bus_type; j++)
             con += y[i][j];
@@ -43,7 +45,8 @@ void mip() {
     // constraint (3)
     for (int j = 1; j <= n_node; j++) {
         IloExpr con(env);
-        for (int i = 0; i <= n_node; i++) if (i != j) {
+        for (int i = 0; i <= n_node; i++)
+            if (i != j) {
                 con += x[i][j];
             }
         model.add(con == 1);
@@ -55,13 +58,17 @@ void mip() {
     for (int i = 0; i <= n_node; i++)
         for (int j = 1; j <= n_node; j++)
             max_time = max(max_time, travel_time[j][i]);
-    max_time += max_time_per_route + 2;
+    max_time += max_time_per_route;
+    int max_demand = 0;
+    for (int i = 1; i <= n_node; i++) max_demand = max(max_demand, nodes[i].demand);
+    max_demand += bus_types[n_bus_type].capacity;
     for (int i = 0; i <= n_node; i++) {
-        for (int j = 1; j <= n_node; j++) if (i != j) {
+        for (int j = 1; j <= n_node; j++)
+            if (i != j) {
                 // constraint (4)
-                model.add(l[i] + 1 + (max_nodes_per_route + 2) * x[i][j] <= l[j] + (max_nodes_per_route + 2));
+                model.add(l[i] + 1 + (max_nodes_per_route) * x[i][j] <= l[j] + (max_nodes_per_route));
                 // constraint (5)
-                model.add(d[i] + nodes[j].demand + (2 * bus_types[n_bus_type].capacity) * x[i][j] <= d[j] + (2 * bus_types[n_bus_type].capacity));
+                model.add(d[i] + nodes[j].demand + (max_demand) * x[i][j] <= d[j] + (max_demand));
                 // constraint (6)
                 model.add(time[i] + travel_time[j][i] + max_time * x[i][j] <= time[j] + max_time);
 
@@ -70,7 +77,7 @@ void mip() {
     // constraint (7)
     for (int i = 1; i <= n_node; i++) {
         for (int j = 1; j <= n_bus_type; j++) {
-            model.add(d[i] + y[i][j] * (2 * bus_types[n_bus_type].capacity) <= bus_types[j].capacity + (2 * bus_types[n_bus_type].capacity));
+            model.add(d[i] + y[i][j] * (bus_types[n_bus_type].capacity) <= bus_types[j].capacity + (bus_types[n_bus_type].capacity));
         }
     }
     // constraint (11)
@@ -90,7 +97,7 @@ void mip() {
     //contraint(13)
     {
         for (int i = 1; i <= n_node; i++) {
-            for(int j = 1; j <= n_bus_type; j++) {
+            for (int j = 1; j <= n_bus_type; j++) {
                 int M = bus_types[j].travelling_cost * max_time_per_route;
                 model.add(cost[i][j] - bus_types[j].travelling_cost * time[i] - (M + bus_types[j].fixed_cost) * y[i][j] >= -M);
             }
@@ -117,8 +124,7 @@ void mip() {
                 x_value[i][j] = (cplex.getValue(x[i][j]) > 0.5);
                 //cout << round(cplex.getValue(x[i][j])) << " ";
 
-            }
-            else x_value[i][j] = 0;
+            } else x_value[i][j] = 0;
             //cout << 0 << " ";
         }
         //if (i > 0) cout << (cplex.getValue(y[i][1]) > 0.5) + (cplex.getValue(y[i][2]) > 0.5) + (cplex.getValue(y[i][3]) > 0.5) << endl;
@@ -133,7 +139,8 @@ void mip() {
         int start_node = -1;
         for (int i = start + 1; i <= n_node; i++) {
             bool check_start = true;
-            for (int j = 1; j <= n_node; j++) if (i != j && x_value[i][j] > 0) {
+            for (int j = 1; j <= n_node; j++)
+                if (i != j && x_value[i][j] > 0) {
                     check_start = false;
                     break;
                 }
@@ -146,7 +153,8 @@ void mip() {
         if (start_node == -1) break;
         while (start_node != 0) {
             int node = 0, count = 0;
-            for (int next_node = 0; next_node <= n_node; next_node++) if (start_node != next_node && x_value[next_node][start_node] == 1){
+            for (int next_node = 0; next_node <= n_node; next_node++)
+                if (start_node != next_node && x_value[next_node][start_node] == 1) {
                     count++;
                     node = next_node;
                     x_value[next_node][start_node] = 2;
@@ -159,7 +167,7 @@ void mip() {
     }
     reverse(sol.giant_tour, sol.giant_tour + sol.n_giant_tour + 1);
     sol.processGiantToRoutes();
-    sol.outFile(cplex.getMIPRelativeGap());
+    sol.outFile(cplex.getMIPRelativeGap(), false);
     out(sol.total_cost, int(round(100 * double(sol.n_negative) / total_demand)));
     printArray0N(sol.giant_tour, sol.n_giant_tour);
     //for (int i = 1; i <= n_node; i++) {

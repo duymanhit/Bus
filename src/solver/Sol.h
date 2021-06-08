@@ -85,7 +85,7 @@ struct Sol {
 
     void outFile();
 
-    void outFile(double);
+    void outFile(double, bool);
 
     void printf();
 
@@ -727,7 +727,7 @@ inline void Sol::outFile() {
     fileOut.close();
 }
 
-inline void Sol::outFile(double gap) {
+inline void Sol::outFile(double gap, bool openFile) {
     // routes
     int res_route = 0, res_1 = 0, res_2 = 0, res_3 = 0;
     for (int route = 1; route <= n_route; route++) {
@@ -748,7 +748,7 @@ inline void Sol::outFile(double gap) {
     }
     // runtime
     double runtime = ((double) (clock() - start_running) / CLOCKS_PER_SEC);
-    //fileOut.open(outputDictionary + instance_name);
+    if (openFile) fileOut.open(outputDictionary + instance_name);
     fileOut << instance_name << "\t" << n_node << "\t" << res_route << "\t" << res_1 << "\t" << res_2 << "\t" << res_3
             << "\t"
             << ((double) n_negative / total_demand) * 100 << "\t" << total_cost << "\t" << runtime << "\t" << gap

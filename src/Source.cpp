@@ -49,7 +49,7 @@ int main() {
         string name = instance_name;
 //        check_instance = false;
         cout << instance_name << endl;
-        for (double ratio = 0.1; ratio <= 1; ratio += 0.2) {
+        for (double ratio = 0.1; ratio <= 1; ratio += 0.1) {
             if (ratio > 0.5) ratio = 1;
             max_negative_percentage_of_student = ratio;
             cout << ratio << " " << name << endl;
@@ -64,8 +64,8 @@ int main() {
 //            GRASP(i_max);
 //            check_instance = true;
             // uncomment to run mip
-//            instance_name = "mip-SBRPNI-" + to_string(int(round(max_negative_percentage_of_student * 100))) + "-" + name;
-//            mip();
+            instance_name = "mip-SBRPNI-" + to_string(int(round(max_negative_percentage_of_student * 100))) + "-" + name;
+            mip();
         }
     }
     system("pause");
