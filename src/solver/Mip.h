@@ -15,8 +15,8 @@ void mip() {
     IloModel model(env);
     IloCplex cplex(model);
     cplex.setParam(IloCplex::TiLim, 60 * 60);
-    cplex.setParam(IloCplex::WorkMem, 12 * 1024);
-    cplex.setParam(IloCplex::TreLim, 12 * 1024);
+    cplex.setParam(IloCplex::WorkMem, 16 * 1024);
+    cplex.setParam(IloCplex::TreLim, 16 * 1024);
     fileOut.open(outputDictionary + instance_name);
     cplex.setOut(fileOut);
     IloNumVarArray l(env, n_node + 1, 0, max_nodes_per_route); // constraint(9)
@@ -87,9 +87,9 @@ void mip() {
     // constraint (12)
     {
         IloExpr con(env);
-        for (int i = 1; i <= n_node; i++) {
+        for (int i = 1; i <= n_node; i++) if (nodes[i].pre_demand > 0) {
             model.add(time[i] - r[i] * max_time_per_route <= max_negative_time_ratio * nodes[i].current_time);
-            con += r[i] * nodes[i].demand;
+            con += r[i] * nodes[i].pre_demand;
         }
         model.add(con <= max_negative_students);
         con.end();

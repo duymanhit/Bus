@@ -25,7 +25,7 @@ Route::Route(int* index_giant, int n) {
 	int min_demand = total_demand;
 	for (int i = 0; i < n_node; i++) {
 		min_demand = min(min_demand, nodes[orderNode[i]].demand);
-		max_negative += nodes[orderNode[i]].demand;
+		max_negative += nodes[orderNode[i]].pre_demand;
 	}
 	max_negative -= min_demand;
 }

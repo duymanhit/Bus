@@ -30,6 +30,7 @@ void getInput(const string& path) {
     fileIn >> n_node;
     for (int i = 0; i <= n_node; i++) {
         fileIn >> i >>  nodes[i].x >> nodes[i].y >> nodes[i].demand;
+        nodes[i].pre_demand = nodes[i].demand;
     }
     initArray2D(travel_time, n_node + 2, n_node + 2, oo);
     for (int i = 0; i <= n_node; i++)
@@ -58,6 +59,38 @@ void getInput(const string& path) {
     //current_sol.check();
     fileIn.close();
 }
+void getInput2(const string& path) {
+    ifstream fileIn(path);
+    /// <summary>
+    /// setting configuration
+    /// </summary>
+    /// <param name="path"></param>
+    fileIn >> waiting_time;
+    fileIn >> max_nodes_per_route;
+    fileIn >> max_time_per_route;
+    fileIn >> max_percentage_travel_time;
+    fileIn >> max_negative_time_ratio;
+    fileIn >> n_node;
+    for (int i = 0; i <= n_node; i++) {
+        fileIn >> i >>  nodes[i].x >> nodes[i].y >> nodes[i].pre_demand >> nodes[i].demand >> nodes[i].current_time;
+        if (nodes[i].pre_demand == 0) nodes[i].current_time = oo;
+    }
+    initArray2D(travel_time, n_node + 2, n_node + 2, oo);
+    for (int i = 0; i <= n_node; i++)
+        for (int j = 0; j <= n_node; j++) {
+            fileIn >> travel_time[i][j];
+        }
+
+    for (int j = 0; j <= n_node; j++) travel_time[0][j] = 0;
+    fileIn >> n_bus_type;
+    for (int i = 1; i <= n_bus_type; i++) {
+        fileIn >> bus_types[i].capacity >> bus_types[i].fixed_cost >> bus_types[i].travelling_cost;
+    }
+
+    process_input();
+
+}
+
 void process_input() {
     // demand
     total_demand = 0;

@@ -191,7 +191,7 @@ void Solution::split() {
                     if (!checkTimeNode(orderNode[end], time)) break;
                     demand += nodes[orderNode[end]].demand;
                     start = orderNode[end];
-                    if (checkNegative(start, time)) current_n_negative += nodes[start].demand;
+                    if (checkNegative(start, time)) current_n_negative += nodes[start].pre_demand;
                     if (current_n_negative > max_negative_students) break;
                     cost = f_split[i][k] + time * travel_cost_for_demand[demand] + fixed_cost_for_demand[demand];
                     //out(i + 1, end, cost, fixed_cost_for_demand[demand]);
@@ -281,7 +281,7 @@ void Solution::preprocessRoute(int r) {
         demandOfRoute[length] = demandOfRoute[length - 1] + nodes[node].demand;
         timeOfRoute[length] = timeOfRoute[length - 1] + travel_time[node][route[length - 1]];
         isNegativeNode[node] = checkNegative(node, timeOfRoute[length]);
-        routeNegative[r] += isNegativeNode[node] * nodes[node].demand;
+        routeNegative[r] += isNegativeNode[node] * nodes[node].pre_demand;
     }
     // reverseTime
     reverseTimeOfRoute[length] = 0;
@@ -327,7 +327,7 @@ int Solution::getNegativeStudents(const int &route, const int &start, const int 
         node = routes[route][i];
         newTime = timeOfRoutes[route][i] + time;
         if (!checkTimeNode(node, newTime)) return oo;
-        result += (checkNegative(node, newTime) - isNegativeNode[node]) * nodes[node].demand;
+        result += (checkNegative(node, newTime) - isNegativeNode[node]) * nodes[node].pre_demand;
     }
     return result;
 }
@@ -339,7 +339,7 @@ inline int Solution::getNegativeStudentsWithStartTime(const int &route, const in
     for (int i = start; i != endLoop; i += tend) {
         node = routes[route][i];
         if (!checkTimeNode(node, time)) return oo;
-        result += (checkNegative(node, time) - isNegativeNode[node]) * nodes[node].demand;
+        result += (checkNegative(node, time) - isNegativeNode[node]) * nodes[node].pre_demand;
         time += travel_time[routes[route][i + tend]][node];
     }
     return result;
@@ -351,7 +351,7 @@ inline int Solution::getNegativeStudentForm(const int &start, int time) {
         node = cacheRoute[i];
         if (i != 0 && node == 0) break;
         if (!checkTimeNode(node, time)) return oo;
-        result += (checkNegative(node, time) - isNegativeNode[node]) * nodes[node].demand;
+        result += (checkNegative(node, time) - isNegativeNode[node]) * nodes[node].pre_demand;
         time += travel_time[cacheRoute[i + 1]][node];
     }
     return result;

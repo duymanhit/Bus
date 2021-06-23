@@ -61,6 +61,7 @@ CMakeFiles\Bus.dir\src\Source.cpp.obj: ..\src\config\Config.h
 CMakeFiles\Bus.dir\src\Source.cpp.obj: ..\src\config\GlobalVariables.h
 CMakeFiles\Bus.dir\src\Source.cpp.obj: ..\src\input\Input.h
 CMakeFiles\Bus.dir\src\Source.cpp.obj: ..\src\input\VRP2Instance.h
+CMakeFiles\Bus.dir\src\Source.cpp.obj: ..\src\input\VRPD2Instance.h
 CMakeFiles\Bus.dir\src\Source.cpp.obj: ..\src\model\Objects.h
 CMakeFiles\Bus.dir\src\Source.cpp.obj: ..\src\model\Route.h
 CMakeFiles\Bus.dir\src\Source.cpp.obj: ..\src\solver\GRASP.h

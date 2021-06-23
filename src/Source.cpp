@@ -38,9 +38,10 @@ void testPermutation();
 #include "solver/ILS.h"
 #include "solver/GRASP.h"
 #include "input/VRP2Instance.h"
-
+#include "input/VRPD2instance.h"
 int main() {
 //    testStringConcat();
+    cout << "BUS-NI" << endl;
     cin >> seed;
     int i_max, i_ils;
     cin >> i_max  >> i_ils;
@@ -52,17 +53,15 @@ int main() {
         for (double ratio = 0.1; ratio <= 1; ratio += 0.1) {
             if (ratio > 0.5) ratio = 1;
             max_negative_percentage_of_student = ratio;
-            cout << ratio << " " << name << endl;
-            // uncomment to convert vrp instances to SBRPNI instance
-            //convertvrpinstance(instance_name);
+//            convertVRPDInstance(instance_name);
             srand(seed);
             instance_name = "SBRPNI-current-" + name;
-            getInput(inputDictionary + "SBRPNI-" + name);
+            getInput2(inputDictionary + "SBRPNI-" + name);
+//            getInput2(inputDictionary + "SBRPNI-" + name);
 
-            instance_name = "SBRPNI-" + to_string(int(round(max_negative_percentage_of_student * 100))) + "-" + name;
-            ILS(i_max, i_ils);
-//            GRASP(i_max);
-//            check_instance = true;
+//            instance_name = "SBRPNI-" + to_string(int(round(max_negative_percentage_of_student * 100))) + "-" + name;
+//            ILS(i_max, i_ils);
+
             // uncomment to run mip
             instance_name = "mip-SBRPNI-" + to_string(int(round(max_negative_percentage_of_student * 100))) + "-" + name;
             mip();

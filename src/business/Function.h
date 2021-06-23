@@ -23,11 +23,15 @@ bool checkNegative(int node, int riding_time) {
 }
 
 int getNegative(int node, int riding_time) {
-    return nodes[node].demand * ((riding_time > nodes[node].current_time * max_negative_time_ratio));
+    return nodes[node].pre_demand * ((riding_time > nodes[node].current_time * max_negative_time_ratio));
 }
 
 int getEUCdis(int x_1, int y_1, int x_2, int y_2) {
     return round(sqrt(pow(x_1 - x_2, 2) + pow(y_1 - y_2, 2)));
+}
+
+int getMHTanDis(int x_1, int y_1, int x_2, int y_2) {
+    return abs(x_1 - x_2) + abs(y_1 - y_2);
 }
 
 int random(int start, int end) {

@@ -19,6 +19,7 @@ struct Location {
     int id;
     double x;
     double y;
+    int pre_demand = 0;
     int demand;
     string address;
     int current_time;

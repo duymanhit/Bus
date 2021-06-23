@@ -185,7 +185,7 @@ void Sol::split() {
                     if (!checkTimeNode(order_node[end], time)) break;
                     demand += nodes[order_node[end]].demand;
                     start = order_node[end];
-                    if (checkNegative(start, time)) current_n_negative += nodes[start].demand;
+                    if (checkNegative(start, time)) current_n_negative += nodes[start].pre_demand;
                     if (current_n_negative > max_negative_students) break;
                     cost = f_split[i][k] + time * travel_cost_for_demand[demand] + fixed_cost_for_demand[demand];
                     //out(i + 1, end, cost, fixed_cost_for_demand[demand]);
@@ -260,7 +260,7 @@ void Sol::processGiantToRoutes() {
             demand_giant[i] = demand_giant[i - 1] + nodes[giant_tour[i]].demand;
             time_of_node[giant_tour[i]] = time_giant[i];
             is_negative_node[giant_tour[i]] = checkNegative(giant_tour[i], time_giant[i]);
-            n_negative += is_negative_node[giant_tour[i]] * nodes[giant_tour[i]].demand;
+            n_negative += is_negative_node[giant_tour[i]] * nodes[giant_tour[i]].pre_demand;
             route_of_index[i] = n_route;
             end_route[n_route] = i;
         }
@@ -312,7 +312,7 @@ int Sol::check() {
             }
             time += travel_time[giant_tour[i]][giant_tour[i - 1]];
             demand += nodes[giant_tour[i]].demand;
-            check_n_negative += checkNegative(giant_tour[i], time) * nodes[giant_tour[i]].demand;
+            check_n_negative += checkNegative(giant_tour[i], time) * nodes[giant_tour[i]].pre_demand;
             node++;
         }
     }
@@ -342,7 +342,7 @@ int Sol::getNegativeStudents(const int &start, const int &end, const int &time) 
         if (giant_tour[i] == 0) break;
         if (!checkTimeNode(giant_tour[i], time_giant[i] + time)) return oo;
         result += (checkNegative(giant_tour[i], time_giant[i] + time) - is_negative_node[giant_tour[i]]) *
-                  nodes[giant_tour[i]].demand;
+                  nodes[giant_tour[i]].pre_demand;
     }
     return result;
 }
@@ -352,7 +352,7 @@ inline int Sol::getNegativeStudentsWithStartTime(const int &start, const int &en
     for (int i = start; i <= end; i++) {
         if (giant_tour[i] == 0) break;
         if (!checkTimeNode(giant_tour[i], time)) return oo;
-        result += (checkNegative(giant_tour[i], time) - is_negative_node[giant_tour[i]]) * nodes[giant_tour[i]].demand;
+        result += (checkNegative(giant_tour[i], time) - is_negative_node[giant_tour[i]]) * nodes[giant_tour[i]].pre_demand;
         time += travel_time[giant_tour[i + 1]][giant_tour[i]];
     }
     return result;
@@ -363,7 +363,7 @@ inline int Sol::getNegativeStudentForm(const int &start, int time) {
     for (int i = start; true; i++) {
         if (!checkTimeNode(cache_route[i], time)) return oo;
         result +=
-                (checkNegative(cache_route[i], time) - is_negative_node[cache_route[i]]) * nodes[cache_route[i]].demand;
+                (checkNegative(cache_route[i], time) - is_negative_node[cache_route[i]]) * nodes[cache_route[i]].pre_demand;
         if (route_of_index[i + 1] == route_of_index[start]) {
             time += travel_time[cache_route[i + 1]][cache_route[i]];
         } else {

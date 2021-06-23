@@ -491,6 +491,8 @@ solver/GRASP.h
 D:/Research/Bus/src/solver/GRASP.h
 input/VRP2Instance.h
 D:/Research/Bus/src/input/VRP2Instance.h
+input/VRPD2instance.h
+D:/Research/Bus/src/input/VRPD2Instance.h
 
 D:/Research/Bus/src/business/Function.h
 
@@ -503,6 +505,8 @@ D:/Research/Bus/src/config/GlobalVariables.h
 D:/Research/Bus/src/input/Input.h
 
 D:/Research/Bus/src/input/VRP2Instance.h
+
+D:/Research/Bus/src/input/VRPD2Instance.h
 
 D:/Research/Bus/src/model/Objects.h
 
